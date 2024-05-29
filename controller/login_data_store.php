@@ -1,6 +1,6 @@
 <?php
-session_start();
 
+session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -12,11 +12,13 @@ require('../view/reachedpage.php');
 $databaseConnection = new DatabaseConnection($config);
 $conn = $databaseConnection->getConnection();
 
+
 // if ($conn) {
 //     echo "connected successfully<br>";
 // } else {
 //     die("failed to connect: " . mysqli_connect_error());
 // }
+
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['loginsubmit'])) {
@@ -27,14 +29,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['loginsubmit'])) {
     $sql1 = "SELECT * FROM registration_data WHERE email = '$email' AND password = '$password'";
     $result1 = mysqli_query($conn, $sql1);
 
+    $_SESSION['email'] = $email;
+    $_SESSION['password'] = $password;
+
     if (mysqli_num_rows($result1) > 0) {
-        header("Location: ../view/reachedpage.php");
-        exit;
+        if($email === $_SESSION['email'] && $password === $_SESSION['password']  ){
+            header("Location: ../view/reachedpage.php");
+            exit;
+        }
+       
     }else{
         echo "Invalid email or password";
     }
 
-    //sessio storage.............
-    $_SESSION['email'] = $email;
+ 
    
 }
+
+
+

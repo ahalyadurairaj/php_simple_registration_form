@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 // Enable error reporting
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -36,6 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit'])) {
     }
 }
 
+$_SESSION['email'] = $email;
+$_SESSION['password'] = $password;
 // Close the connection
 mysqli_close($conn);
 
